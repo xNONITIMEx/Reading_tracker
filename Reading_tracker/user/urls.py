@@ -1,5 +1,7 @@
 from django.urls import path
-from . import views
+from .views import sign_in
 
 app_name = 'user'
-urlpatterns = []
+urlpatterns = [
+    path('sign_in', sign_in, name='sign in')
+]

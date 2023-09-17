@@ -1,3 +1,43 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.views import View
+from django.views.generic import FormView
+from django.contrib.auth import login, logout
+from django.contrib import messages
 
-# Create your views here.
+from .forms import ReaderCreationForm
+
+
+class LogIn(FormView):
+    # form_class = ReaderCreationForm
+    success_url = '/'
+    template_name = 'user/log_in.html'
+
+    def form_valid(self, form):
+        self.reader = form.get_user()
+        login(self.request, self.reader)
+        return super(LogIn, self).form_valid(form)
+
+    def form_invalid(self, form):
+        return super(LogIn, self).form_invalid(form)
+
+
+class LogOut(View):
+    def get(self, request):
+        logout(request)
+        return redirect('/')
+
+
+def sign_in(request):
+    if request.method == 'POST':
+        form = ReaderCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email')
+            messages.success(request, f'Account for {email} was created!')
+            print('Success')
+            return redirect('/')
+        print('Failed')
+    else:
+        print('Method GET')
+        form = ReaderCreationForm()
+        return render(request, 'user/sign_in.html', {'form': form})
