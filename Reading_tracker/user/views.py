@@ -5,6 +5,8 @@ from django.contrib.auth import login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
+from .forms import ReaderCreationForm
+
 
 
 class Login(FormView):
@@ -21,7 +23,7 @@ class Login(FormView):
         return super(Login, self).form_invalid(form)
 
 
-class LogOut(View):
+class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('/')
@@ -36,7 +38,8 @@ def sign_up(request):
             messages.success(request, f'Account for {email} was created!')
             print('Success')
             return redirect('/')
-        print('Failed')
+        else:
+            return render(request, 'user/sign_up.html', {'form': form})
     else:
         print('Method GET')
         form = ReaderCreationForm()
