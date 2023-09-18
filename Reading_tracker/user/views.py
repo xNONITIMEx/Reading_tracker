@@ -3,22 +3,22 @@ from django.views import View
 from django.views.generic import FormView
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 
-from .forms import ReaderCreationForm
 
 
-class LogIn(FormView):
-    # form_class = ReaderCreationForm
+class Login(FormView):
+    form_class = AuthenticationForm
     success_url = '/'
-    template_name = 'user/log_in.html'
+    template_name = 'user/login.html'
 
     def form_valid(self, form):
         self.reader = form.get_user()
         login(self.request, self.reader)
-        return super(LogIn, self).form_valid(form)
+        return super(Login, self).form_valid(form)
 
     def form_invalid(self, form):
-        return super(LogIn, self).form_invalid(form)
+        return super(Login, self).form_invalid(form)
 
 
 class LogOut(View):
@@ -27,7 +27,7 @@ class LogOut(View):
         return redirect('/')
 
 
-def sign_in(request):
+def sign_up(request):
     if request.method == 'POST':
         form = ReaderCreationForm(request.POST)
         if form.is_valid():
@@ -40,4 +40,4 @@ def sign_in(request):
     else:
         print('Method GET')
         form = ReaderCreationForm()
-        return render(request, 'user/sign_in.html', {'form': form})
+        return render(request, 'user/sign_up.html', {'form': form})
