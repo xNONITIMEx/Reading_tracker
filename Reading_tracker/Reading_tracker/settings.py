@@ -133,3 +133,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.Reader'
 
 CRISPY_TEMPLATE_PACK = 'uni_form'
+
+#Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_FROM = 'readingtracker00@gmail.com'
+EMAIL_HOST_USER = 'readingtracker00@gmail.com'
+EMAIL_HOST_PASSWORD = 'ddsm ajki pezu atfa '
+EMAIL_PORT = 587
+EMAIL_USE_SSL = False
+EMAIL_USE_TLS = True
+
+PASSWORD_RESET_TIMEOUT = 14400
+
